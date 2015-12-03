@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<?xml-stylesheet type="text/xsl" href="http://localhost:80/lizardtech/iserv/getstyle?style=default"?>
+<ImageServer host="localhost:80" licensestate="valid" path="lizardtech/iserv" version="9.0.6.3966" xmlns:LizardTech="http://www.lizardtech.com">
+
+  <Request command="browse"/>
+
+  <Response>
+    <ContentList type="catalog">
+      <Item name="Geo">
+        <Property name="Description">
+         A sampling of MrSID images 
+         from LizardTech's customers who work with geographic imagery.
+      </Property>
+      </Item>
+      <Item georgn="-179.995833,89.995833,180.004167,-90.004167" name="MODIS" srs="EPSG:4326">
+        <Property name="Name">MODIS Data 2002</Property>
+        <Property name="Description">A composite of four months of MODIS observations, with a spatial resolution of 1000m/pixel.</Property>
+      </Item>
+      <Item georgn="847314.193647,296450.337502,848837.891591,294926.639557" name="Missouri_NIR" srs="EPSG:2817">
+        <Property name="Name">GeoEye IR</Property>
+        <Property name="Description">This is the same dataset as "Missouri_RGB" but renders the NIR-G-B combination</Property>
+      </Item>
+      <Item georgn="847314.193647,296450.337502,848837.891591,294926.639557" name="Missouri_RGB" srs="EPSG:2817">
+        <Property name="Name">GeoEye RGBView</Property>
+        <Property name="Description">This RGB-NIR satellite data has been compressed into MG4 and reprojected into EPSG 2817 (NAD83(HARN) / Missouri West).  Here we display the R-G-B combination.  Note how the Alpha band causes transparency at the corners</Property>
+      </Item>
+    </ContentList>
+    <ContentList type="style">
+      <Item name="default"/>
+      <Item name="leaflet"/>
+      <Item name="parallelism"/>
+      <Item name="parallelism2"/>
+      <Item name="simple"/>
+      <Item name="xml"/>
+    </ContentList>
+  </Response>
+
+</ImageServer>
