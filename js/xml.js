@@ -59,56 +59,55 @@ function handler() {
 
 function openCatalog(catalog) {
   var url = "http://" + hostname + "/lizardtech/iserv/browse?cat=" + catalog;
+  gallery.innerHTML = "";
   createClient(url);
   
 }
 
 function isArray(obj) {
-  if (! obj.length) {
-    var newArray = [obj];
-    return newArray;
-  } else {
+  if (Object.prototype.toString.call(obj) === '[object Array]') {
     return obj;
+  } else {
+    return [obj];
   }
 }
 
-function findItemByAttr (obj, name, value) {
-  if (obj.length > 0) {
-    for (i = 0; i < obj.length; i++) {
+function findObjByAttr (obj, name, value) {
+  if (Object.prototype.toString.call(obj) === '[object Array]') {
+    for (var i = 0; i < obj.length; i++) {
       if (obj[i]['@attributes'][name] == value) {
-        console.log("match array");
         return obj[i];
       } 
     }
   } else {
     if (obj['@attributes'][name] == value) {
-      console.log("match single");
       return obj;
     } 
   }
 
-  console.log("Got here");
+  // console.log("Attributes:" + name + ", " + value + " not found in object:");
+  // console.log(obj);
   return false;
 }
 
 function displayCatalogs(object) {
 
   hostname = object['ImageServer']['@attributes']['host'];
-  var items = findItemByAttr(object['ImageServer']['Response']['ContentList'], "type", "catalog")['Item'];
-  
+  var items = findObjByAttr(object['ImageServer']['Response']['ContentList'], "type", "catalog")['Item'];
 
-  for (i=0; i < items.length; i++) {
-    console.log(items[i]['Property']);
-    //var description = findItemByAttr(items[i]['Property'], "name", "Description")['#text'];
-   // gallery.innerHTML += '<a href="javascript:openCatalog(\'' + items[i]['@attributes']['name'] + '\')"><img width="300" height="300" src="http://' + hostname + '/lizardtech/iserv/getthumb?thumbspec=gallery&cat=' + items[i]['@attributes']['name'] + '"/></a>';
-    gallery.innerHTML += '<div class="row">' +
+  for (var i=0; i < items.length; i++) {
+    var props = {};
+    props.description = findObjByAttr(items[i]['Property'], "name", "Description")['#text'];
+    props.name = (findObjByAttr(items[i]['Property'], "name", "Name") ? findObjByAttr(items[i]['Property'], "name", "Name")['#text'] : items[i]["@attributes"]["name"]);
+
+    gallery.innerHTML += 
       '<div class="col-sm-6 col-md-4">' +
         '<div class="thumbnail">' +
-          '<img src="http://' + hostname + '/lizardtech/iserv/getthumb?thumbspec=gallery&cat=' + items[i]["@attributes"]["name"] + '" alt="">' +
+          '<a href="javascript:openCatalog(\'' + items[i]['@attributes']['name'] + '\')"><img src="http://' + hostname + '/lizardtech/iserv/getthumb?thumbspec=gallery&cat=' + items[i]["@attributes"]["name"] + '" alt=""></a>' +
           '<div class="caption">' +
-            '<h3>' +  + '</h3>' +
-            '<p>' +  + '</p>' +
-          '</div></div></div></div>';
+            '<h3>' + props.name + '</h3>' +
+            '<p>' + props.description + '</p>' +
+          '</div></div></div>';
 
   }
 
