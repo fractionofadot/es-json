@@ -157,7 +157,8 @@ function createClient(url) {
 }
 
 var url = "http://localhost/lizardtech/iserv/browse?";
-createClient(url);
+var local = "http://localhost/es/browse.xml"
+createClient(local);
 
 /*
 ImageServer (host, licensestate, path, version, xmlns:LizardTech)
