@@ -13,7 +13,7 @@ function xmlToJson (xml) {
       }
     }
   } else if (xml.nodeType == 3) {
-    obj = xml.nodeValue
+    obj = xml.nodeValue;
   }
 
   if (xml.hasChildNodes()) {
@@ -37,7 +37,7 @@ function xmlToJson (xml) {
 
 function handler() {
   if(this.status == 200 &&
-    this.responseXML != null &&
+    this.responseXML !== null &&
     this.responseXML.getElementsByTagName('ImageServer')) {
     // success!
     var object = xmlToJson(this.responseXML);
@@ -157,7 +157,7 @@ function createClient(url) {
 }
 
 var url = "http://localhost/lizardtech/iserv/browse?";
-var local = "http://localhost/es/browse.xml"
+var local = "http://localhost/es/browse.xml";
 createClient(local);
 
 /*
