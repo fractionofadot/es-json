@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Express Server</title>
+
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+  </head>
+  <body>
+    <h1>Express Server</h1>
+
+    <ol id="crumbs" class="breadcrumb">
+
+
+    </ol>
+
+    <div id="gallery"></div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    var url = "http://localhost/lizardtech/iserv/browse";
+
+    function processData(data) {
+      // taking care of data
+      var crumbs = document.getElementById('crumbs');
+
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].getAttribute("type") == "catalog") {
+          var items = data[i].getElementsByTagName('Item');
+
+          var link = "";
+          var thumb = "";
+          var desc = "";
+          var name = "";
+          for (n=0; n<items.length; n++) {
+
+            if (items[n].getElementsByTagName('Property')) {
+              for (var x=0; x<items[n].getElementsByTagName('Property').length; x++) {
+                if (items[n].getElementsByTagName('Property')[x].getAttribute("name") == "Description") {
+                  desc = items[n].getElementsByTagName('Property')[x].childNodes[0].nodeValue;
+                } else if (items[n].getElementsByTagName('Property')[x].getAttribute("name") == "Name") {
+                  name = items[n].getElementsByTagName('Property')[x].childNodes[0].nodeValue;
+                } else {
+                  name = items[n].getAttribute("name");
+                  desc = "No description";
+                }
+              } 
+
+              thumb = thumb + '<div class="row"><div class="col-sm-6 col-md-4"><div class="thumbnail"><img src="..." alt="..."><div class="caption"><h3>'+ name + '</h3><p>'+ desc + '</p><p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p></div></div></div></div>';
+            } else {
+              thumb = thumb + '<div class="row"><div class="col-sm-6 col-md-4"><div class="thumbnail"><img src="..." alt="..."><div class="caption"><h3>'+ items[n].getAttribute("name") + '</h3><p>No description.</p><p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p></div></div></div></div>';
+            }
+            link = link + '<li><a href="#">' + items[n].getAttribute("name") + '</a></li>';
+          }
+          document.getElementById('crumbs').innerHTML = link;
+          document.getElementById('gallery').innerHTML = thumb;
+            
+        }
+
+      }
+
+    }
+
+    function handler() {
+      if(this.status == 200 &&
+        this.responseXML != null &&
+        this.responseXML.getElementsByTagName('ContentList')) {
+        // success!
+        processData(this.responseXML.getElementsByTagName('ContentList'));
+      } else {
+        console.log("something went wrong");
+      }
+    }
+
+    var client = new XMLHttpRequest();
+    client.onload = handler;
+    client.open("GET", url);
+    client.send();
+
+    </script>
+  </body>
+</html>
