@@ -42,6 +42,7 @@ function handler() {
     // success!
     var object = xmlToJson(this.responseXML);
     console.log(object);
+    makeESObject(object);
  
     if (object['ImageServer']['Request']['Parameter']) { 
       if (object['ImageServer']['Request']['Parameter']['@attributes']['name'] == "cat")  {
@@ -148,6 +149,30 @@ function displayImages(object) {
   }
 }
 
+function makeESObject(object) {
+  var imageServer = {
+    host: object['ImageServer']['@attributes']['host'],
+    licensestate: object['ImageServer']['@attributes']['licensestate'],
+    path: object['ImageServer']['@attributes']['path'],
+    version: object['ImageServer']['@attributes']['version']
+  };
+  
+  var command = object['ImageServer']['Request']['@attributes']['command'];
+  
+  var parameters = {};
+  if (object['ImageServer']['Request']['Parameter']) {
+   parameters = {
+    cat: findObjByAttr(object['ImageServer']['Request']['Parameter'], "name", "cat")['#text'],
+    item: findObjByAttr(object['ImageServer']['Request']['Parameter'], "name", "item")['#text'],
+    style: findObjByAttr(object['ImageServer']['Request']['Parameter'], "name", "style")['#text'],
+    props: findObjByAttr(object['ImageServer']['Request']['Parameter'], "name", "props")['#text'],
+  };
+  }
+
+ console.log(imageServer.host);
+  
+}
+
 function createClient(url) {
   var client = new XMLHttpRequest();
   client.onload = handler;
@@ -157,13 +182,13 @@ function createClient(url) {
 }
 
 var url = "http://localhost/lizardtech/iserv/browse?";
-var local = "http://localhost/es/browse.xml";
-createClient(local);
+var chromecast = "http://127.0.0.1:42677/es-json/browse.xml";
+createClient(chromecast);
 
 /*
 ImageServer (host, licensestate, path, version, xmlns:LizardTech)
   Request (command)
-    Parameter (name [cat]) 
+    Parameter (name [cat, item, props, style, ...]) 
   Response
     Status (code)
     ContentList (type[image,style,catalog])
@@ -177,9 +202,4 @@ ImageServer (host, licensestate, path, version, xmlns:LizardTech)
         ContentList (type)
           Item (georgn, id, name, srs, jpip)
             Property (name)
-    Property (name)
-    Folder (name, parent)
-      ContentList (type)
-        Item (georgn, id, name, jpip, srs)
-          Property (name)
 */
