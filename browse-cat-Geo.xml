@@ -1,0 +1,35 @@
+
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<?xml-stylesheet type="text/xsl" href="http://demo.lizardtech.com/lizardtech/iserv/getstyle?style=default"?>
+<ImageServer host="demo.lizardtech.com" licensestate="valid" path="lizardtech/iserv" version="9.0.6.3966" xmlns:LizardTech="http://www.lizardtech.com">
+
+  <Request command="browse">
+    <Parameter name="cat">Geo</Parameter>
+  </Request>
+
+  <Response>
+    <Catalog name="Geo">
+      <Folder name="/">
+        <ContentList type="image">
+          <Item georgn="0.000000,34.120001,48.450001,0.000000" id="BLM_relief.sid" name="BLM_relief.sid">
+            <Property name="Name">BLM Relief</Property>
+            <Property name="Description">This large format image from the Bureau of Land Management was originally scanned as a 436 MB TIFF image.  After MrSID encoding it is just 13 MB.</Property>
+          </Item>
+          <Item georgn="0.000000,75.000001,102.777779,0.000000" id="camyard.sid" name="camyard.sid">
+            <Property name="Name">Baltimore's Stadiums</Property>
+            <Property name="Description">This image of Baltimore's baseball and football stadiums was originally 120 MB in TIFF format.  It was reduced by a ratio of over 20:1 into a 5.6 MB MrSID image.  Image courtesy of 3Di at www.3dillc.com.</Property>
+          </Item>
+          <Item georgn="548331.350000,5274801.450000,550640.450001,5270903.250003" id="Seattle.jp2" jpip="http://demo.lizardtech.com:9013/Geo/Seattle.jp2" name="Seattle.jp2" srs="EPSG:26910">
+            <Property name="Name"/>
+            <Property name="Description"/>
+          </Item>
+          <Item georgn="539520.000000,5290820.000000,621160.000000,5234030.000000" id="Seattle_toposkin_DEM.sid" name="Seattle_toposkin_DEM.sid">
+            <Property name="Name">Seattle Digital Elevation Model</Property>
+            <Property name="Description">This georeferenced Toposkins (tm) image is a 10-meter Digital Elevation Model (DEM) that was 135 MB as a TIFF.  It is now just 5 MB as a MrSID image.  Image courtesy of www.commenspace.org.</Property>
+          </Item>
+        </ContentList>
+      </Folder>
+    </Catalog>
+  </Response>
+
+</ImageServer>
