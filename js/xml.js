@@ -160,17 +160,37 @@ function makeESObject(object) {
   var command = object['ImageServer']['Request']['@attributes']['command'];
   
   var parameters = {};
-  if (object['ImageServer']['Request']['Parameter']) {
-   parameters = {
-    cat: findObjByAttr(object['ImageServer']['Request']['Parameter'], "name", "cat")['#text'],
-    item: findObjByAttr(object['ImageServer']['Request']['Parameter'], "name", "item")['#text'],
-    style: findObjByAttr(object['ImageServer']['Request']['Parameter'], "name", "style")['#text'],
-    props: findObjByAttr(object['ImageServer']['Request']['Parameter'], "name", "props")['#text'],
-  };
-  }
-
- console.log(imageServer.host);
+  var knownparams = ["cat", "style", "item", "props"];
   
+  if (object['ImageServer']['Request']['Parameter']) {
+    for (var i=0; i<knownparams.length; i++) {
+      var test = findObjByAttr(object['ImageServer']['Request']['Parameter'], "name", knownparams[i]);
+      var value = (test ? test['#text'] : false);
+      if (value) {
+        parameters[knownparams[i]] = value;
+      }
+    }
+  }
+  
+  var status = object.ImageServer.Response.Status;
+  
+  var catobj = findObjByAttr(object.ImageServer.Response.ContentList, "type", "catalog");
+  var items = (catobj ? catobj.Item : false);
+  
+  var catalogs = [];
+  
+  if (items) {
+      for (var i=0; i<items.length; i++) {
+        var catalog = {
+          name: items[i]['@attributes'].name,
+          srs: items[i]['@attributes'].srs,
+          georgn: items[i]['@attributes'].georgn,
+          fullname: findObjByAttr(items[i].Property, "name", "Name")['#text'],
+          description: findObjByAttr(items[i].Property, "name", "Description")['#text']
+        };
+        catalogs[0] = catalog;
+      }
+  }
 }
 
 function createClient(url) {
@@ -182,8 +202,10 @@ function createClient(url) {
 }
 
 var url = "http://localhost/lizardtech/iserv/browse?";
-var chromecast = "http://127.0.0.1:42677/es-json/browse.xml";
-createClient(chromecast);
+var chromehost = "http://127.0.0.1:43687/es-json/";
+var localpages = ["browse.xml", "cat.xml", "item.xml"];
+var chromeurl = chromehost + localpages[0];
+createClient(chromeurl);
 
 /*
 ImageServer (host, licensestate, path, version, xmlns:LizardTech)

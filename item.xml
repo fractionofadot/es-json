@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<?xml-stylesheet type="text/xsl" href="http://demo.lizardtech.com/lizardtech/iserv/getstyle?style=default"?>
+<ImageServer host="demo.lizardtech.com" licensestate="valid" path="lizardtech/iserv" version="9.0.6.3966" xmlns:LizardTech="http://www.lizardtech.com">
+
+  <Request command="browse">
+    <Parameter name="cat">Geo</Parameter>
+    <Parameter name="item">camyard.sid</Parameter>
+  </Request>
+
+  <Response>
+    <Catalog name="Geo">
+      <Image bitspersample="8" colorspace="rgb" ctime="Fri, 21 Aug 2015 16:35:38 GMT" georgn="0.000000,75.000001,102.777779,0.000000" height="5400" mtime="Fri, 18 Jun 2004 05:46:02 GMT" name="camyard.sid" numlevels="9" parent="/" samplesperpixel="3" size="5749794" type="sid" width="7400">
+        <Property name="Name">Baltimore's Stadiums</Property>
+        <Property name="Description">This image of Baltimore's baseball and football stadiums was originally 120 MB in TIFF format.  It was reduced by a ratio of over 20:1 into a 5.6 MB MrSID image.  Image courtesy of 3Di at www.3dillc.com.</Property>
+      </Image>
+    </Catalog>
+  </Response>
+
+</ImageServer>
