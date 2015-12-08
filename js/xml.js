@@ -73,7 +73,7 @@ function isArray(obj) {
   }
 }
 
-function findObjByAttr (obj, name, value) {
+function getObjByAttr (obj, name, value) {
   if (Object.prototype.toString.call(obj) === '[object Array]') {
     for (var i = 0; i < obj.length; i++) {
       if (obj[i]['@attributes'][name] == value) {
@@ -94,12 +94,12 @@ function findObjByAttr (obj, name, value) {
 function displayCatalogs(object) {
 
   hostname = object['ImageServer']['@attributes']['host'];
-  var items = findObjByAttr(object['ImageServer']['Response']['ContentList'], "type", "catalog")['Item'];
+  var items = getObjByAttr(object['ImageServer']['Response']['ContentList'], "type", "catalog")['Item'];
 
   for (var i=0; i < items.length; i++) {
     var props = {};
-    props.description = findObjByAttr(items[i]['Property'], "name", "Description")['#text'];
-    props.name = (findObjByAttr(items[i]['Property'], "name", "Name") ? findObjByAttr(items[i]['Property'], "name", "Name")['#text'] : items[i]["@attributes"]["name"]);
+    props.description = getObjByAttr(items[i]['Property'], "name", "Description")['#text'];
+    props.name = (getObjByAttr(items[i]['Property'], "name", "Name") ? getObjByAttr(items[i]['Property'], "name", "Name")['#text'] : items[i]["@attributes"]["name"]);
 
     gallery.innerHTML += 
       '<div class="col-sm-6 col-md-4">' +
@@ -164,7 +164,7 @@ function makeESObject(object) {
   
   if (object['ImageServer']['Request']['Parameter']) {
     for (var i=0; i<knownparams.length; i++) {
-      var test = findObjByAttr(object['ImageServer']['Request']['Parameter'], "name", knownparams[i]);
+      var test = getObjByAttr(object['ImageServer']['Request']['Parameter'], "name", knownparams[i]);
       var value = (test ? test['#text'] : false);
       if (value) {
         parameters[knownparams[i]] = value;
@@ -174,7 +174,7 @@ function makeESObject(object) {
   
   var status = object.ImageServer.Response.Status;
   
-  var catobj = findObjByAttr(object.ImageServer.Response.ContentList, "type", "catalog");
+  var catobj = getObjByAttr(object.ImageServer.Response.ContentList, "type", "catalog");
   var items = (catobj ? catobj.Item : false);
   
   var catalogs = [];
@@ -185,8 +185,8 @@ function makeESObject(object) {
           name: items[i]['@attributes'].name,
           srs: items[i]['@attributes'].srs,
           georgn: items[i]['@attributes'].georgn,
-          fullname: findObjByAttr(items[i].Property, "name", "Name")['#text'],
-          description: findObjByAttr(items[i].Property, "name", "Description")['#text']
+          fullname: getObjByAttr(items[i].Property, "name", "Name")['#text'],
+          description: getObjByAttr(items[i].Property, "name", "Description")['#text']
         };
         catalogs[0] = catalog;
       }
@@ -205,7 +205,7 @@ var url = "http://localhost/lizardtech/iserv/browse?";
 var chromehost = "http://127.0.0.1:43687/es-json/";
 var localpages = ["browse.xml", "cat.xml", "item.xml"];
 var chromeurl = chromehost + localpages[0];
-createClient(chromeurl);
+createClient(url);
 
 /*
 ImageServer (host, licensestate, path, version, xmlns:LizardTech)
