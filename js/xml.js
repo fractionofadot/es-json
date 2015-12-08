@@ -188,7 +188,7 @@ function makeESObject(object) {
           fullname: getObjByAttr(items[i].Property, "name", "Name")['#text'],
           description: getObjByAttr(items[i].Property, "name", "Description")['#text']
         };
-        catalogs[0] = catalog;
+        catalogs[i] = catalog;
       }
   }
 }
